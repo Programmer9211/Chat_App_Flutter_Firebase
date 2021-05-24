@@ -16,10 +16,13 @@ Future<User> createAccount(String name, String email, String password) async {
     if (user != null) {
       print("Account created Succesfull");
 
+      user.updateProfile(displayName: name);
+
       await _firestore.collection('users').doc(_auth.currentUser.uid).set({
         "name": name,
         "email": email,
         "status": "Unavalible",
+        "uid": _auth.currentUser.uid,
       });
 
       return user;
@@ -35,6 +38,7 @@ Future<User> createAccount(String name, String email, String password) async {
 
 Future<User> logIn(String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
     User user = (await _auth.signInWithEmailAndPassword(
@@ -43,6 +47,12 @@ Future<User> logIn(String email, String password) async {
 
     if (user != null) {
       print("Login Sucessfull");
+      _firestore
+          .collection('users')
+          .doc(_auth.currentUser.uid)
+          .get()
+          .then((value) => user.updateProfile(displayName: value['name']));
+
       return user;
     } else {
       print("Login Failed");
