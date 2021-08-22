@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  Map<String, dynamic> userMap;
+  Map<String, dynamic>? userMap;
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,12 +19,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     setStatus("Online");
   }
 
   void setStatus(String status) async {
-    await _firestore.collection('users').doc(_auth.currentUser.uid).update({
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
       "status": status,
     });
   }
@@ -125,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ? ListTile(
                         onTap: () {
                           String roomId = chatRoomId(
-                              _auth.currentUser.displayName, userMap['name']);
+                              _auth.currentUser!.displayName!,
+                              userMap!['name']);
 
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -138,14 +139,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         },
                         leading: Icon(Icons.account_box, color: Colors.black),
                         title: Text(
-                          userMap['name'],
+                          userMap!['name'],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        subtitle: Text(userMap['email']),
+                        subtitle: Text(userMap!['email']),
                         trailing: Icon(Icons.chat, color: Colors.black),
                       )
                     : Container(),
