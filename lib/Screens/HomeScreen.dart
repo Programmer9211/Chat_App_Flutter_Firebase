@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             MaterialPageRoute(
                               builder: (_) => ChatRoom(
                                 chatRoomId: roomId,
-                                userMap: userMap,
+                                userMap: userMap!,
                               ),
                             ),
                           );
