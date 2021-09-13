@@ -23,7 +23,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
     String groupId = Uuid().v1();
 
-    await _firestore.collection('groups').doc('groupId').set({
+    await _firestore.collection('groups').doc(groupId).set({
       "members": widget.membersList,
       "id": groupId,
     });
