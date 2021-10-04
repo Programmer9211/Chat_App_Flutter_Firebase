@@ -59,9 +59,14 @@ class _GroupChatHomeScreenState extends State<GroupChatHomeScreen> {
               itemCount: groupList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => GroupChatRoom(),
-                  )),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => GroupChatRoom(
+                        groupName: groupList[index]['name'],
+                        groupChatId: groupList[index]['id'],
+                      ),
+                    ),
+                  ),
                   leading: Icon(Icons.group),
                   title: Text(groupList[index]['name']),
                 );
